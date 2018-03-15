@@ -1,0 +1,35 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+
+<?php /* @var $block \Absoft\WallCatalog\Block\Product\View\Options\Type\Select */ ?>
+<?php
+$_option = $block->getOption();
+$class = ($_option->getIsRequire()) ? ' required' : '';
+?>
+<div class="field<?= /* @escapeNotVerified */ $class ?>">
+    <label class="label" for="select_<?= /* @escapeNotVerified */ $_option->getId() ?>">
+        <span><?= $block->escapeHtml($_option->getTitle()) ?></span>
+    </label>
+    <div class="control">
+        <?= $block->getValuesHtml() ?>
+
+        <?php if($block->getTitleOption()==$block->getTitleOptionConfig()){?>
+                <a target="_blank" href="<?= $block->getLinkToPage() ?>"><span id="custom-option-icon"><i class="<?= $block->getIcon()?>" aria-hidden="true"></i></span></a>
+            <?php } ?>
+        <?php if($block->getTitleOption()==$block->getTitleOptionConfig1()){?>
+            <a target="_blank" href="<?= $block->getLinkToPage1() ?>"><span id="custom-option-icon"><i class="<?= $block->getIcon1()?>" aria-hidden="true"></i></span></a>
+        <?php } ?>
+        <?php if ($_option->getIsRequire()): ?>
+            <?php if ($_option->getType() == \Magento\Catalog\Api\Data\ProductCustomOptionInterface::OPTION_TYPE_RADIO || $_option->getType() == \Magento\Catalog\Api\Data\ProductCustomOptionInterface::OPTION_TYPE_CHECKBOX): ?>
+                <span id="options-<?= /* @escapeNotVerified */ $_option->getId() ?>-container"></span>
+            <?php endif; ?>
+        <?php endif;?>
+    </div>
+</div>

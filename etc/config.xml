@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <wall_catalog_config>
+            <wall_catalog_settings>
+                <enable>1</enable>
+                <width_sku>width</width_sku>
+                <height_sku>height</height_sku>
+            </wall_catalog_settings>
+            <custom_option_select>
+                <link_to_page>metric</link_to_page>
+                <title_option>metric</title_option>
+                <display_icon>Error</display_icon>
+            </custom_option_select>
+            <custom_option_select_1>
+                <link_to_page_1>metric</link_to_page_1>
+                <title_option_1>metric frame</title_option_1>
+                <display_icon_1>Error</display_icon_1>
+            </custom_option_select_1>
+        </wall_catalog_config>
+    </default>
+</config>

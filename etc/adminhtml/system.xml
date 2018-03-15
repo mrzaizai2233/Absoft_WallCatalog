@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="wall_catalog" translate="label" sortOrder="10">
+            <label>Wall Catalog</label>
+        </tab>
+        <section id="wall_catalog_config" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Wall Catalog Config</label>
+            <tab>wall_catalog</tab>
+            <resource>Absoft_WallCatalog::wallcatalog_config</resource>
+            <group id="wall_catalog_settings" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>General Configuration</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Module Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="width_sku" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Width SKU</label>
+                    <comment>This text will specified Width SKU.</comment>
+                </field>
+                <field id="height_sku" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Height SKU</label>
+                    <comment>This text will specified Height SKU.</comment>
+                </field>
+            </group>
+            <group id="custom_option_select" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Link To Page</label>
+                <field id="link_to_page" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Link To Page</label>
+                    <comment>This text will specified Width SKU.</comment>
+                </field>
+                <field id="title_option" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Show with option title</label>
+                    <comment>This text will specified Width option title.</comment>
+                </field>
+                <field id="display_icon" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Icon</label>
+                    <comment>This text will specified Height SKU.</comment>
+                </field>
+            </group>
+            <group id="custom_option_select_1" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Link To Page 2</label>
+
+                <field id="link_to_page_1" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Link To Page</label>
+                    <comment>This text will specified Width SKU.</comment>
+                </field>
+                <field id="title_option_1" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Show with option title</label>
+                    <comment>This text will specified Width option title.</comment>
+                </field>
+                <field id="display_icon_1" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Icon</label>
+                    <comment>This text will specified Height SKU.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

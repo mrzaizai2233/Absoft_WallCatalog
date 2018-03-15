@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <script src="Absoft_WallCatalog::js/custom.js"/>
+    </head>
+    <body>
+    <referenceContainer name="content">
+        <block class="Absoft\WallCatalog\Block\Preview" name="Absoft_index_preview" template="Absoft_WallCatalog::index/preview.phtml" cacheable="false"/>
+    </referenceContainer>
+    </body>
+</page>

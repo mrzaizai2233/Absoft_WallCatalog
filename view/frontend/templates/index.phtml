@@ -1,0 +1,116 @@
+<?php
+/**
+ * @var \Absoft\WallCatalog\Block\Index $block
+ * @var \Magento\Catalog\Api\Data\ProductInterface $product
+ * @var \Magento\Catalog\Api\Data\ProductCustomOptionInterface $option
+ */
+//$_product = $block->getProduct();
+$_productColection = $block->getProductByAttributeSet();
+?>
+<!--<h1 style="text-align: center">JSON data for Product SKU: --><?php //$block->getSku() ?><!--</h1>-->
+<input type="hidden" id="product_sku" value="<?= $block->getSku() ?>">
+
+<!--<div id="app" v-show="false">
+    <h1 style="text-align: center"><?/*= $_product->getName() */?></h1>
+
+    <div v-if="product" >
+        <form ref="cartForm" v-on:submit.prevent="onSubmit">
+            <div class="fieldset">
+                <div class="field">
+                    <label class="label" for=""><?/*= __("Cart ID") */?></label>
+                    <input type="text" id="quoteIdMask" value="<?php /*echo $block->getQuoteIdMask() */?>">
+                </div>
+                <div v-for="option of product.options" class="field">
+                    <label class="label" v-text="option.title"></label>
+                    <input v-if="option.type=='field'" type="text"
+                           v-bind:name="option.title=='Qty'?'qty':option.option_id" class="input-text">
+                    <select v-if="option.type=='drop_down'" v-bind:name="option.option_id">
+                        <option v-for="value of option.values" v-bind:value="value.option_type_id"
+                                v-text="value.title"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="product-item">
+                <input type="submit" class="action tocart primary" value="Add To Cart">
+            </div>
+
+        </form>
+    </div>
+    <pre v-if="loadding==true">
+        <img src="https://loading.io/spinners/microsoft/index.svg" alt="" style="margin: auto;display: block">
+                <span v-else >{{ product | json }}</span>
+    </pre>
+</div>
+-->
+<!--<input type="hidden" id="quoteIdMask" value="--><?php //echo $block->getQuoteIdMask() ?><!--">-->
+
+<?php foreach ($_productColection->getItems() as $product) { ?>
+    <div class="app">
+
+        <h1 style="text-align: center"><?= $product->getName() ?></h1>
+
+        <form action="<?= $block->getUrl('wallcatalog/index/preview',['sku'=>$product->getSku()]) ?>">
+            <div class="fieldset">
+                <?php foreach ($block->getProductOptions($product) as $option) { ?>
+                    <?php if ($option->getTitle() != 'Width' && $option->getTitle() != 'Height'): ?>
+                    <div class="field">
+
+                        <label class="label" for="<?= $option->getOptionId() ?>"><?= $option->getTitle() ?></label>
+                        <?php if ($option->getType() == 'field'): ?>
+
+                            <input class="input-text" id="<?= $option->getOptionId() ?>"
+                                   name="<?= $option->getOptionId() ?>">
+                        <?php elseif ($option->getType() == 'drop_down'): ?>
+                            <select id="<?= $option->getOptionId() ?>" name="<?= $option->getOptionId() ?>">
+                                <?php foreach ($option->getValues() as $index => $value):
+                                    echo "<option value='{$value['option_type_id']}'>{$value['title']}</option>";
+                                endforeach; ?>
+                            </select>
+                        <?php endif; ?>
+                    </div>
+                    <?php endif; ?>
+                <?php } ?>
+
+            </div>
+            <div class="product-item">
+                <input type="submit" class="action tocart primary" value="Preview">
+            </div>
+        </form>
+    </div>
+
+<?php } ?>
+<style>
+    /*#app {*/
+        /*padding: 15px;*/
+        /*margin: 0 auto;*/
+        /*width: 25%;*/
+        /*-webkit-box-shadow: 3px 3px 5px 4px rgba(0, 0, 0, 0.31);*/
+        /*-moz-box-shadow: 3px 3px 5px 4px rgba(0, 0, 0, 0.31);*/
+        /*box-shadow: 3px 3px 5px 4px rgba(0, 0, 0, 0.31);*/
+    /*}*/
+
+    .app {
+        float: left;
+        padding: 15px;
+        margin-right: 65px;
+        margin-bottom: 100px;
+        width: 25%;
+        -webkit-box-shadow: 3px 3px 5px 4px rgba(0, 0, 0, 0.31);
+        -moz-box-shadow: 3px 3px 5px 4px rgba(0, 0, 0, 0.31);
+        box-shadow: 3px 3px 5px 4px rgba(0, 0, 0, 0.31);
+    }
+    .input-text {
+        background: #fff;
+        background-clip: padding-box;
+        border: 1px solid #c2c2c2;
+        border-radius: 1px;
+        font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+        font-size: 14px;
+        height: 32px;
+        line-height: 1.42857143;
+        padding: 0 9px;
+        vertical-align: baseline;
+        width: 100%;
+        box-sizing: border-box;
+    }
+</style>
