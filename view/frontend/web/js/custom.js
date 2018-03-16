@@ -94,6 +94,6 @@ require([
 
         }
     })
-
-
+    // var a =  require('Absoft_WallCatalog/js/app')
+    // console.log(a);
 });

@@ -10,13 +10,10 @@ $_options = $block->getOptions($_product->getSku());
 ?>
 <!--<h1 style="text-align: center">JSON data for Product SKU: --><?php //$block->getSku() ?><!--</h1>-->
 <input type="hidden" id="product_sku" value="<?= $block->getSku() ?>">
-
-<div id="app">
+<div class="app">
+<div id="app" >
     <h1 style="text-align: center"><?= $_product->getName() ?></h1>
-    <pre v-if="loadding==true">
-        <img src="https://loading.io/spinners/microsoft/index.svg" alt="" style="margin: auto;display: block">
-    </pre>
-    <div>
+
         <form v-show="loadding==false" ref="cartForm" v-on:submit.prevent="onSubmit" id="cart-form">
             <div class="fieldset">
                 <div class="field required">
@@ -47,9 +44,8 @@ $_options = $block->getOptions($_product->getSku());
                         }
                     }
                 } ?>
-            </div>
 
-    <?php foreach ($_options as $option) {
+            <?php foreach ($_options as $option) {
                 if (!key_exists($option->getOptionId(), $block->getParams())) {
                     ?>
                     <div class="field required">
@@ -63,16 +59,16 @@ $_options = $block->getOptions($_product->getSku());
             }
             ?>
             </div>
+
             <div class="product-item">
                 <input type="submit" class="action tocart primary" value="Add To Cart">
             </div>
 
         </form>
-    </div>
 <!--    <button v-on:click="check(this)">CLick</button>-->
 
 </div>
-
+</div>
 <script type="text/x-magento-init">
     {
         "#cart-form": {
@@ -90,25 +86,17 @@ $_options = $block->getOptions($_product->getSku());
     }
 </script>
 <style>
-    #app {
-    padding: 15px;
-    margin: 0 auto;
-    width: 25%;
-    -webkit-box-shadow: 3px 3px 5px 4px rgba(0, 0, 0, 0.31);
-    -moz-box-shadow: 3px 3px 5px 4px rgba(0, 0, 0, 0.31);
-    box-shadow: 3px 3px 5px 4px rgba(0, 0, 0, 0.31);
-    }
 
-    /*.app {*/
-        /*float: left;*/
-        /*padding: 15px;*/
-        /*margin-right: 65px;*/
-        /*margin-bottom: 100px;*/
-        /*width: 25%;*/
-        /*-webkit-box-shadow: 3px 3px 5px 4px rgba(0, 0, 0, 0.31);*/
-        /*-moz-box-shadow: 3px 3px 5px 4px rgba(0, 0, 0, 0.31);*/
-        /*box-shadow: 3px 3px 5px 4px rgba(0, 0, 0, 0.31);*/
-    /*}*/
+
+    .app {
+        margin:0 auto;
+        float: left;
+        padding: 15px;
+        width: 25%;
+        -webkit-box-shadow: 3px 3px 5px 4px rgba(0, 0, 0, 0.31);
+        -moz-box-shadow: 3px 3px 5px 4px rgba(0, 0, 0, 0.31);
+        box-shadow: 3px 3px 5px 4px rgba(0, 0, 0, 0.31);
+    }
     /*.input-text {*/
         /*background: #fff;*/
         /*background-clip: padding-box;*/

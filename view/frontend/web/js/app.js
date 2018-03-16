@@ -1,5 +1,4 @@
 define([], function() {
-    return function(config) {
-            console.log(config)
-    }
+    var a =5;
+    return a;
 });
