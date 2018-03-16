@@ -1,1 +1,5 @@
-var data  = 5;
+define([], function() {
+    return function(config) {
+            console.log(config)
+    }
+});
