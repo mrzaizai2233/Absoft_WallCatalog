@@ -19,7 +19,7 @@ require([
                 var elements = this.$refs.cartForm.elements;
                 var qty = null;
                 var options = [].reduce.call(elements, function (data, element, index) {
-                    if (element.value) {
+                    if (element.name !="" && element.name !== 'qty') {
                         data[index] = {
                             optionId: element.name,
                             optionValue: element.value
@@ -60,7 +60,8 @@ require([
                                 }
                             })
                             .then(function (response) {
-                                location.href = '/checkout/cart'
+                                self.loadding = false;
+                                // location.href = '/checkout/cart'
                             })
                             .catch(function (error) {
                                 console.log(error)

@@ -204,4 +204,16 @@ class Select extends \Magento\Catalog\Block\Product\View\Options\Type\Select {
         return $this->_wallcatalogHelper->getOptionSelectConfig1('display_icon_1');
     }
 
+    public function getValueOption($title){
+        $options = json_decode($this->_wallcatalogHelper->getCustomOption('options'),true);
+
+        $value= null;
+        foreach ($options as $option) {
+            if($option['option_title']==$title){
+                $value=$option;
+            }
+        }
+        return $value;
+    }
+
 }

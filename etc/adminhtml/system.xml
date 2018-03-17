@@ -55,6 +55,15 @@
                     <comment>This text will specified Height SKU.</comment>
                 </field>
             </group>
+            <group id="custom_option" translate="label"  sortOrder="91" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Add link</label>
+                <comment></comment>
+                <field id="options" translate="label" sortOrder="220" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>active buy</label>
+                    <frontend_model>Absoft\WallCatalog\Block\System\Config\Form\Field\Active</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+            </group>
         </section>
     </system>
 </config>

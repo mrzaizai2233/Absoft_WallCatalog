@@ -35,4 +35,8 @@ class Data extends AbstractHelper
 
     }
 
+    public function getCustomOption($code,$storeId=null){
+        return $this->getConfigValue(self::XML_PATH_HELLOWORLD.'custom_option/'.$code,$storeId);
+    }
+
 }

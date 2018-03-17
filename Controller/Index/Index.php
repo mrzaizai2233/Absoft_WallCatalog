@@ -48,7 +48,12 @@ class Index extends \Magento\Framework\App\Action\Action
         if($quoteID){
             $quoteIdMask->load($quoteID, 'quote_id');
         } else {
-            $quoteID = $this->_cartManager->createEmptyCart();
+            $customerId = $this->_customerSession->getCustomerId();
+            if($customerId){
+                $quoteID = $this->_cartManager->createEmptyCartForCustomer($customerId);
+            } else {
+                $quoteID = $this->_cartManager->createEmptyCart();
+            }
             $cart = $this->_cartRepository->get($quoteID);
             $this->_checkoutSession->replaceQuote($cart);
             $quoteIdMask->setQuoteId($quoteID)->save();

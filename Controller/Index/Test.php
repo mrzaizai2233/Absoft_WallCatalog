@@ -16,6 +16,7 @@ class Test extends \Magento\Framework\App\Action\Action
     protected $_checkoutSession;
     protected $_cartRepository;
     protected $quoteIdMaskFactory;
+    protected $_wallcatalogHelper;
 
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -25,7 +26,9 @@ class Test extends \Magento\Framework\App\Action\Action
         CatalogSession $catalogSession,
         CustomerSession $customerSession,
         CheckoutSession $checkoutSession,
-        QuoteIdMaskFactory $quoteIdMaskFactory
+        QuoteIdMaskFactory $quoteIdMaskFactory,
+        \Absoft\WallCatalog\Helper\Data $wallcatalogHelper
+
 
     )
     {
@@ -36,28 +39,33 @@ class Test extends \Magento\Framework\App\Action\Action
         $this->_cartManager = $cartManagement;
         $this->_cartRepository = $cartRepository;
         $this->quoteIdMaskFactory = $quoteIdMaskFactory;
+        $this->_wallcatalogHelper = $wallcatalogHelper;
         return parent::__construct($context);
     }
 
     public function execute()
     {
 
-        var_dump($this->_checkoutSession->getData());
-        die;
-//        $quoteID = $this->_checkoutSession->getQuoteId();
-//        $quoteIdMask = $this->quoteIdMaskFactory->create();
-//        if($quoteID){
-//            $quoteIdMask->load($quoteID, 'quote_id');
-//        } else {
-//            $quoteID = $this->_cartManager->createEmptyCart();
-//            $cart = $this->_cartRepository->get($quoteID);
-//            $this->_checkoutSession->replaceQuote($cart);
-//            $quoteIdMask->setQuoteId($quoteID)->save();
-//        }
+        $quoteID = $this->_checkoutSession->getQuoteId();
+        echo $quoteID;
+        $quoteIdMask = $this->quoteIdMaskFactory->create();
+        if($quoteID){
+            $quoteIdMask->load($quoteID, 'quote_id');
+        } else {
+            $customerId = $this->_customerSession->getCustomerId();
+            if($customerId){
+                $quoteID = $this->_cartManager->createEmptyCartForCustomer($customerId);
+            } else {
+                $quoteID = $this->_cartManager->createEmptyCart();
+            }
+            $cart = $this->_cartRepository->get($quoteID);
+            $this->_checkoutSession->replaceQuote($cart);
+            $quoteIdMask->setQuoteId($quoteID)->save();
+        }
 
-//        echo $quoteIdMask->getQuoteId();
-//        echo $this->_checkoutSession->getQuoteId();
-//        die;
+        echo $quoteIdMask->getQuoteId();
+        echo $this->_checkoutSession->getQuoteId();
+        die;
 
         return $this->_pageFactory->create();
     }

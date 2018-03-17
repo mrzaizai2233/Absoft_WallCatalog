@@ -1,13 +1,9 @@
 <?php
-
-namespace Absoft\WallCatalog\Model\GuestCart;
+namespace Absoft\WallCatalog\Model\Quote\Item;
 
 use Magento\Quote\Api\CartRepositoryInterface;
-use Magento\Quote\Api\CartTotalRepositoryInterface;
 
-class GuestCartItemRepository
-{
-
+class Repository {
 
     protected $_logger;
 
@@ -24,41 +20,45 @@ class GuestCartItemRepository
         $this->_logger = $logger;
         $this->_cartReponsitory = $cartRepository;
     }
-
     /**
-     * @param \Magento\Quote\Model\GuestCart\GuestCartItemRepository $subject
+     * @param \Magento\Quote\Model\Quote\Item\Repository $subject
      * @param \Magento\Quote\Api\Data\CartItemInterface $cartItem
      * @return mixed
      */
-    public function afterSave(\Magento\Quote\Model\GuestCart\GuestCartItemRepository $subject,$cartItem)
+    public function afterSave(\Magento\Quote\Model\Quote\Item\Repository $subject,$cartItem)
     {
         $width_text = $this->helperData->getGeneralConfig('width_sku');
         $height_text = $this->helperData->getGeneralConfig('height_sku');
         $_customOptions = $cartItem->getProduct()->getTypeInstance(true)->getOrderOptions($cartItem->getProduct());
-
+        /**
+         * @var \Magento\Catalog\Model\Product $product
+         */
         $product = $cartItem->getProduct();
         $price = $product->getPrice();
         $optionProducts = $product->getOptions()?$product->getOptions():[];
         $cm2=1;
+        $optionPrice=0;
         foreach ($optionProducts as $optionProduct) {
 
             $dataOption = $optionProduct->getData();
+
             if($dataOption['sku']==$width_text || $dataOption['sku']==$height_text) {
                 foreach($_customOptions['info_buyRequest']['options'] as $index => $value){
-                        if($index==$dataOption['option_id']) {
-                            $cm2= $cm2*$value;
-                        }
+                    if($index==$dataOption['option_id']) {
+                        $cm2= $cm2*$value;
+                    }
                 }
             }
+//            foreach($_customOptions['info_buyRequest']['options'] as $index => $value){
+//                if($index==$dataOption['option_id']) {
+//
+//                }
+//            }
         }
         $total_price = $cm2*$price;
         $cartItem->setCustomPrice($total_price);
         $cartItem->setOriginalCustomPrice($total_price);
-        $cartItem->setPrice($total_price);
-        $cartItem->setBasePrice($total_price);
-        $cartItem->setBaseRowTotal($total_price);
-        $cartItem->setRowTotal($total_price);
-        $cartItem->getProduct()->setIsSuperMode(true);
+        $product->setIsSuperMode(true);
 
         $cartItem->save();
 
@@ -70,24 +70,4 @@ class GuestCartItemRepository
 
     }
 
-    /**
-     * @param \Magento\Quote\Api\Data\CartItemInterface $cartItem
-     * @return mixed
-     */
-//    public function beforeSave(\Magento\Quote\Model\GuestCart\GuestCartItemRepository $subject,$cartItem){
-//        $cartItem->setCustomPrice(1000);
-//        $cartItem->setOriginalCustomPrice(1000);
-////        $cartItem->getProduct()->setIsSuperMode(true);
-//
-////        $options = $cartItem->getProductOption()->getExtensionAttributes()->getCustomOptions();
-////        foreach ($options as $option) {
-////            var_dump($option->getData());
-////        }
-////        die;
-//        return [$cartItem];
-//    }
-//
-//    public function aroundSave(\Magento\Quote\Model\GuestCart\GuestCartItemRepository $subject,$cartItem){
-//
-//    }
 }

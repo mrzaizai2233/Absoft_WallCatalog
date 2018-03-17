@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <type name="Magento\Quote\Model\GuestCart\GuestCartItemRepository" >
-        <plugin name="CustomGuestCartItemRepository" type="Absoft\WallCatalog\Model\GuestCart\GuestCartItemRepository" sortOrder="100" />
+
+    <type name="Magento\Quote\Model\Quote\Item\Repository" >
+        <plugin name="CustomCartItemRepository" type="Absoft\WallCatalog\Model\Quote\Item\Repository" sortOrder="100" />
     </type>
     <preference for="Magento\Catalog\Block\Product\View\Options\Type\Select" type="Absoft\WallCatalog\Block\Product\View\Options\Type\Select" />
     <preference for="Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options\Type\Select" type="Absoft\WallCatalog\Block\Adminhtml\Product\Edit\Tab\Options\Type\Select" />
