@@ -37,19 +37,34 @@
                         id="product-addtocart-button">
                     <span><?= /* @escapeNotVerified */ $buttonTitle ?></span>
                 </button>
-                <a href="<?= $block->getUrl('wallcatalog/index/index',['sku'=>$_product->getSku()])?>">
                 <button type="button"
                         title="<?= /* @escapeNotVerified */ $view ?>"
                         class="action default tocart"
-                        id="">
+                        id="preview">
                     <span><?= /* @escapeNotVerified */ $view ?></span>
                 </button>
-                </a>
                 <?= $block->getChildHtml('', true) ?>
             </div>
         </div>
     </div>
 <?php endif; ?>
+
+
+<script type="text/javascript">
+    require([
+        'jquery',
+        'mage/mage'
+    ], function($){
+
+        $('#preview').click(function(){
+            var form = $(this).closest('form');
+            var data_form = form.serialize()
+            var data = decodeURIComponent(data_form)
+            console.log(data)
+        })
+
+    });
+</script>
 <?php if ($block->isRedirectToCartEnabled()) : ?>
     <script type="text/x-magento-init">
     {

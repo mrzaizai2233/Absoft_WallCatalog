@@ -109,7 +109,6 @@ class Preview extends \Magento\Framework\View\Element\Template {
 
     /**
      * @param $sku
-     * @param $optionId
      * @return \Magento\Catalog\Api\Data\ProductCustomOptionInterface[]
      */
     public function getOptions($sku){
@@ -123,18 +122,13 @@ class Preview extends \Magento\Framework\View\Element\Template {
 
         $quoteID=null;
         $quoteID = $this->_checkoutSession->getQuoteId();
-        $quoteIdMask = $this->quoteIdMaskFactory->create();
-        if($quoteID){
-            $quoteIdMask->load($quoteID, 'quote_id');
-        } else {
-            $quoteID = $this->_cartManager->createEmptyCart();
-            $cart = $this->_cartRepository->get($quoteID);
-            $this->_checkoutSession->replaceQuote($cart);
+        $quoteIdMask = $this->quoteIdMaskFactory->create()->load($quoteID, 'quote_id');
+        $maskedId = $quoteIdMask->getMaskedId();
+        if(!$maskedId){
             $quoteIdMask->setQuoteId($quoteID)->save();
+            $maskedId = $quoteIdMask->getMaskedId();
         }
-
-        return $quoteIdMask->getMaskedId();
-
+        return $maskedId;
     }
 
 

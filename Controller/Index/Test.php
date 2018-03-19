@@ -45,9 +45,11 @@ class Test extends \Magento\Framework\App\Action\Action
 
     public function execute()
     {
+        die;
 
         $quoteID = $this->_checkoutSession->getQuoteId();
         echo $quoteID;
+        die;
         $quoteIdMask = $this->quoteIdMaskFactory->create();
         if($quoteID){
             $quoteIdMask->load($quoteID, 'quote_id');

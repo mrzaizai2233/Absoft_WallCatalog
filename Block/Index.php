@@ -96,23 +96,19 @@ class Index extends \Magento\Framework\View\Element\Template {
     public function getProductOptions($product){
         return $this->_productCustomOptionRepository->getProductOptions($product);
     }
+
     public function getQuoteIdMask(){
 
 
         $quoteID=null;
         $quoteID = $this->_checkoutSession->getQuoteId();
-        $quoteIdMask = $this->quoteIdMaskFactory->create();
-        if($quoteID){
-            $quoteIdMask->load($quoteID, 'quote_id');
-        } else {
-            $quoteID = $this->_cartManager->createEmptyCart();
-            $cart = $this->_cartRepository->get($quoteID);
-            $this->_checkoutSession->replaceQuote($cart);
+        $quoteIdMask = $this->quoteIdMaskFactory->create()->load($quoteID, 'quote_id');
+        $maskedId = $quoteIdMask->getMaskedId();
+        if(!$maskedId){
             $quoteIdMask->setQuoteId($quoteID)->save();
+            $maskedId = $quoteIdMask->getMaskedId();
         }
-
-        return $quoteIdMask->getMaskedId();
-
+        return $maskedId;
     }
 
 
