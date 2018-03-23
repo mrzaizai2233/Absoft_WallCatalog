@@ -11,5 +11,6 @@
         <action method="setTemplate">
             <argument name="template" xsi:type="string">Absoft_WallCatalog::product/view/addtocart.phtml</argument>
         </action>
+        <block class="Magento\Framework\View\Element\Text" cacheable="false" />
     </referenceBlock>
 </page>

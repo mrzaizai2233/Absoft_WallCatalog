@@ -15,7 +15,7 @@ $_options = $block->getOptions($_product->getSku());
         <pre v-if="loadding==true">
             <img src="https://loading.io/spinners/microsoft/index.svg" alt="" style="margin: auto;display: block">
         </pre>
-        <form v-show="loadding==false" ref="cartForm" v-on:submit.prevent="onSubmit" id="cart-form">
+        <form v-show="loadding==false" ref="cartForm"  id="cart-form">
             <div class="fieldset">
                 <div class="field required">
                     <label class="label" for=""><?= __("Cart ID") ?></label>
@@ -28,7 +28,7 @@ $_options = $block->getOptions($_product->getSku());
                     foreach ($_options as $option) {
                         if($index==$option->getOptionId()){?>
                                 <div class='field required'>
-                                    <label class='label' name="<?= $option->getTitle()=='Qty'?'qty':$index ?>"><?= $option->getTitle()?></label>
+                                    <label class='label' name="<?= $index ?>"><?= $option->getTitle()?></label>
 
                                     <?php if($option->getType()=='field'){?>
                                     <input type='text' value='<?= $value ?>' name='<?= $option->getTitle()=='Qty'?'qty':$index ?>' data-validate="{required:true}">
@@ -52,7 +52,7 @@ $_options = $block->getOptions($_product->getSku());
                     <div class="field required">
                         <label for="" class="label"><?= $option->getTitle() ?></label>
                         <div class="control">
-                            <input class="minimum-0 minimum-length-[0-9]+$ maximum-20 maximum-length-[0-9]+$ " v-validate="'required'" type="text" name="<?= $option->getOptionId() ?>" data-validate="{required:true,'validate-length':true}">
+                            <input value="<?= $option->getTitle()=='Qty'?$block->getParam('qty'):''?>" v-validate="'required'" type="text" name="<?= $option->getTitle()=='Qty'?'qty':$option->getOptionId() ?>" data-validate="{required:true}">
                         </div>
                     </div>
                     <?php
@@ -71,7 +71,7 @@ $_options = $block->getOptions($_product->getSku());
 <script type="text/javascript">
     require([
         'jquery',
-        'mage/mage'
+        'mage/mage',
     ], function($){
 
         var dataForm = $('#cart-form');

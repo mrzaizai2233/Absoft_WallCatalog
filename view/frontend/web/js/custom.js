@@ -3,8 +3,10 @@ require([
     'Absoft_WallCatalog/js/vue',
     'Absoft_WallCatalog/js/axios',
     'Absoft_WallCatalog/js/app',
-    'Absoft_WallCatalog/js/vee'
-], function ($, Vue, axios, app, vee) {
+    'Absoft_WallCatalog/js/vee',
+    'Magento_Customer/js/customer-data'
+], function ($, Vue, axios, app, vee, customerData) {
+    var sections = ['cart']
     Vue.use(vee)
     var app = new Vue({
         el: '#app',
@@ -61,6 +63,8 @@ require([
                             })
                             .then(function (response) {
                                 self.loadding = false;
+                                customerData.invalidate(sections);
+                                customerData.reload(sections, true);
                                 // location.href = '/checkout/cart'
                             })
                             .catch(function (error) {

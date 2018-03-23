@@ -6,7 +6,7 @@
 
 // @codingStandardsIgnoreFile
 
-/** @var $block \Magento\Catalog\Block\Product\View */
+/** @var $block \Absoft\WallCatalog\Block\Product\View */
 ?>
 <?php $_product = $block->getProduct(); ?>
 <?php $buttonTitle = __('Add to Cart'); ?>
@@ -37,34 +37,60 @@
                         id="product-addtocart-button">
                     <span><?= /* @escapeNotVerified */ $buttonTitle ?></span>
                 </button>
+                <?php if($_product->getAllowPreview()): ?>
+                <input type="hidden" name="sku" value="<?= $_product->getSku()?>">
+                <input type="hidden" name="cartId" value="<?= $block->getCartMaskId()?>">
+                <input type="hidden" name="productType" value="<?= $_product->getWallcatalogType()?>">
                 <button type="button"
                         title="<?= /* @escapeNotVerified */ $view ?>"
                         class="action default tocart"
                         id="preview">
                     <span><?= /* @escapeNotVerified */ $view ?></span>
                 </button>
+                <?php endif; ?>
                 <?= $block->getChildHtml('', true) ?>
             </div>
         </div>
     </div>
 <?php endif; ?>
 
-
+<?php if($_product->getAllowPreview()): ?>
 <script type="text/javascript">
     require([
         'jquery',
-        'mage/mage'
+        'mage/validation'
     ], function($){
 
+        var dataForm = $('#product_addtocart_form');
+        var ignore = null;
+
+        dataForm.mage('validation', {
+            ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
+        }).find('input:text').attr('autocomplete', 'off');
+
         $('#preview').click(function(){
+            var isValid = dataForm.validation('isValid');
             var form = $(this).closest('form');
-            var data_form = form.serialize()
-            var data = decodeURIComponent(data_form)
-            console.log(data)
+            var data_form = form.serializeArray();
+            var result =[].reduce.call(data_form,function(last,data){
+                if(data.name.search('options')!=-1){
+                    var regex = /\d+/g;
+                    var index = data.name.match(regex)
+                    last[index] = data.value
+                }
+                if(data.name== 'qty'||data.name=='sku' || data.name=='cartId' || data.name=='productType'){
+                    last[data.name] = data.value
+                }
+                return last;
+            },{})
+            if(isValid){
+                location.href = 'http://wallcatalog.local/?'+$.param(result)
+            }
         })
 
     });
 </script>
+<?php endif; ?>
 <?php if ($block->isRedirectToCartEnabled()) : ?>
     <script type="text/x-magento-init">
     {

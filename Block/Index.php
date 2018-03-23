@@ -13,6 +13,8 @@ use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Asset\Repository;
 use Magento\Quote\Api\CartManagementInterface;
 use Magento\Checkout\Model\Session as CheckoutSession;
+use Magento\Customer\Model\Session as CustomerSession;
+
 use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Quote\Model\QuoteIdMaskFactory;
 
@@ -30,6 +32,7 @@ class Index extends \Magento\Framework\View\Element\Template {
     protected $_filterBuilder;
     protected $_filterBUilderGroup;
     protected $_productCustomOptionRepository;
+    protected $_customerSession;
     public function __construct(Template\Context $context,
                                 RequestInterface $request,
                                 Repository $assetRepository,
@@ -42,7 +45,8 @@ class Index extends \Magento\Framework\View\Element\Template {
                                 SearchCriteriaBuilder $searchCriteriaBuilder,
                                 FilterBuilder $filterBuilder,
                                 FilterGroupBuilder $filterGroupBuilder,
-                                ProductCustomOptionRepositoryInterface $productCustomOptionRepository
+                                ProductCustomOptionRepositoryInterface $productCustomOptionRepository,
+                                CustomerSession $customerSession
 
     )
     {
@@ -58,6 +62,7 @@ class Index extends \Magento\Framework\View\Element\Template {
         $this->_filterBuilder = $filterBuilder;
         $this->_filterBUilderGroup = $filterGroupBuilder;
         $this->_productCustomOptionRepository =$productCustomOptionRepository;
+        $this->_customerSession=$customerSession;
         parent::__construct($context);
     }
 
@@ -102,6 +107,29 @@ class Index extends \Magento\Framework\View\Element\Template {
 
         $quoteID=null;
         $quoteID = $this->_checkoutSession->getQuoteId();
+        $quoteIdMask = $this->quoteIdMaskFactory->create()->load($quoteID, 'quote_id');
+        $maskedId = $quoteIdMask->getMaskedId();
+        if(!$maskedId){
+            $quoteIdMask->setQuoteId($quoteID)->save();
+            $maskedId = $quoteIdMask->getMaskedId();
+        }
+        return $maskedId;
+    }
+
+    public function getCartMaskId(){
+        $quoteID = $this->_checkoutSession->getQuoteId();
+        if(!$quoteID){
+            $customerId = $this->_customerSession->getCustomerId();
+            if($customerId){
+                $quoteID = $this->_cartManager->createEmptyCartForCustomer($customerId);
+            } else {
+                $quoteID = $this->_cartManager->createEmptyCart();
+            }
+            $cart = $this->_cartRepository->get($quoteID);
+            $this->_checkoutSession->replaceQuote($cart);
+        }
+        $quoteID = $this->_checkoutSession->getQuoteId();
+
         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($quoteID, 'quote_id');
         $maskedId = $quoteIdMask->getMaskedId();
         if(!$maskedId){

@@ -4,18 +4,11 @@
     <type name="Magento\Quote\Model\Quote\Item\Repository" >
         <plugin name="CustomCartItemRepository" type="Absoft\WallCatalog\Model\Quote\Item\Repository" sortOrder="100" />
     </type>
+    <type name="Magento\Catalog\Block\Product\View\Options\Type\Select" >
+        <plugin name="BlockSelect" type="Absoft\WallCatalog\Block\Product\View\Options\Type\Select" sortOrder="100" />
+    </type>
     <preference for="Magento\Catalog\Block\Product\View\Options\Type\Select" type="Absoft\WallCatalog\Block\Product\View\Options\Type\Select" />
     <preference for="Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options\Type\Select" type="Absoft\WallCatalog\Block\Adminhtml\Product\Edit\Tab\Options\Type\Select" />
-    <virtualType name="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Pool">
-        <arguments>
-            <argument name="modifiers" xsi:type="array">
-                <item name="customTab" xsi:type="array">
-                    <item name="class" xsi:type="string">
-                        Absoft\WallCatalog\Ui\DataProvider\Product\Form\Modifier\NewField
-                    </item>
-                    <item name="sortOrder" xsi:type="number">70</item>
-                </item>
-            </argument>
-        </arguments>
-    </virtualType>
+    <preference for="Magento\Catalog\Block\Product\View" type="Absoft\WallCatalog\Block\Product\View" />
+
 </config>

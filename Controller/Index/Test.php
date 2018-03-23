@@ -45,8 +45,7 @@ class Test extends \Magento\Framework\App\Action\Action
 
     public function execute()
     {
-        die;
-
+        return $this->_pageFactory->create();
         $quoteID = $this->_checkoutSession->getQuoteId();
         echo $quoteID;
         die;

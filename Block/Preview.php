@@ -75,6 +75,9 @@ class Preview extends \Magento\Framework\View\Element\Template {
         return $this->getRequest()->getParams();
     }
 
+    public function getParam($key){
+        return $this->getRequest()->getParam($key);
+    }
     public function getDirImages(){
 
     }

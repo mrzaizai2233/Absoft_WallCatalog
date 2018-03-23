@@ -49,13 +49,22 @@ class Repository {
                     }
                 }
             }
-//            foreach($_customOptions['info_buyRequest']['options'] as $index => $value){
-//                if($index==$dataOption['option_id']) {
-//
-//                }
-//            }
+            foreach($_customOptions['info_buyRequest']['options'] as $index => $value){
+                if($index==$dataOption['option_id']) {
+                    if($dataOption['type']=='field'){
+                        $optionPrice+= $dataOption['price'];
+                    }
+                    if($dataOption['type']=='drop_down'){
+                        foreach ($optionProduct->getValues() as $optionValueId => $OptionValues) {
+                            if($optionValueId==$value){
+                                $optionPrice += $OptionValues->getPrice();
+                            }
+                        }
+                    }
+                }
+            }
         }
-        $total_price = $cm2*$price;
+        $total_price = ($cm2*$price)+$optionPrice;
         $cartItem->setCustomPrice($total_price);
         $cartItem->setOriginalCustomPrice($total_price);
         $product->setIsSuperMode(true);

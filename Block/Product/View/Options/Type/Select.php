@@ -17,6 +17,13 @@ class Select extends \Magento\Catalog\Block\Product\View\Options\Type\Select {
         parent::__construct($context, $pricingHelper, $catalogData, $data);
     }
 
+
+
+//    public function afterGetTemplate(\Magento\Catalog\Block\Product\View\Options\Type\Select $subject,...$data){
+//        $subject->_template = 'Absoft_WallCatalog::product/view/options/type/select.phtml';
+//        return [$data];
+//    }
+
     public function getValuesHtml()
     {
         $_option = $this->getOption();
@@ -206,7 +213,9 @@ class Select extends \Magento\Catalog\Block\Product\View\Options\Type\Select {
 
     public function getValueOption($title){
         $options = json_decode($this->_wallcatalogHelper->getCustomOption('options'),true);
-
+        if(count($options)<=0){
+            return null;
+        }
         $value= null;
         foreach ($options as $option) {
             if($option['option_title']==$title){
