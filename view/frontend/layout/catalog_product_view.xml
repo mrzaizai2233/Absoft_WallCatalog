@@ -2,12 +2,13 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance dc" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
     </head>
-    <referenceBlock name="product.info.options.select">
-        <action method="setTemplate">
-            <argument name="template" xsi:type="string">Absoft_WallCatalog::product/view/options/type/select.phtml</argument>
-        </action>
-    </referenceBlock>
     <referenceBlock name="product.info.addtocart.additional">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">Absoft_WallCatalog::product/view/addtocart.phtml</argument>
+        </action>
+        <block class="Magento\Framework\View\Element\Text" cacheable="false" />
+    </referenceBlock>
+    <referenceBlock name="product.info.addtocart">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">Absoft_WallCatalog::product/view/addtocart.phtml</argument>
         </action>

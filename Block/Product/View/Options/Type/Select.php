@@ -198,19 +198,6 @@ class Select extends \Magento\Catalog\Block\Product\View\Options\Type\Select {
         return $this->_wallcatalogHelper->getOptionSelectConfig('display_icon');
     }
 
-    public function getTitleOptionConfig1(){
-        return $this->_wallcatalogHelper->getOptionSelectConfig1('title_option_1');
-    }
-
-    public function getLinkToPage1(){
-        return $this->_wallcatalogHelper->getOptionSelectConfig1('link_to_page_1');
-
-    }
-
-    public function getIcon1(){
-        return $this->_wallcatalogHelper->getOptionSelectConfig1('display_icon_1');
-    }
-
     public function getValueOption($title){
         $options = json_decode($this->_wallcatalogHelper->getCustomOption('options'),true);
         if(count($options)<=0){

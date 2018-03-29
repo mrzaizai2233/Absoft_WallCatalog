@@ -85,7 +85,7 @@ class InstallData implements InstallDataInterface
                 'is_filterable_in_grid' => true,
             ]
         );
-         $eavSetup->addAttribute(
+        $eavSetup->addAttribute(
             \Magento\Catalog\Model\Product::ENTITY,
             'is_customizable',
             [

@@ -2,6 +2,7 @@
 namespace Absoft\WallCatalog\Model\Quote\Item;
 
 use Magento\Quote\Api\CartRepositoryInterface;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 class Repository {
 
@@ -9,16 +10,26 @@ class Repository {
 
     protected $helperData;
 
+
+    /**
+     * @var \Magento\Framework\Filesystem\Directory\Write
+     */
+    protected $mediaDirectoryWrite;
+
     protected $_cartReponsitory;
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
         \Absoft\WallCatalog\Helper\Data $helperData,
-        CartRepositoryInterface $cartRepository
+        CartRepositoryInterface $cartRepository,
+        \Magento\Framework\Filesystem $filesystem
+
     )
     {
         $this->helperData = $helperData;
         $this->_logger = $logger;
         $this->_cartReponsitory = $cartRepository;
+        $this->mediaDirectoryWrite = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
+
     }
     /**
      * @param \Magento\Quote\Model\Quote\Item\Repository $subject
@@ -38,6 +49,18 @@ class Repository {
         $optionProducts = $product->getOptions()?$product->getOptions():[];
         $cm2=1;
         $optionPrice=0;
+        foreach($_customOptions['info_buyRequest']['options'] as $index => $value){
+            if($index=='image_preview'){
+
+                $image_data = explode(',',$value)[1];
+                echo $image_data;
+                $image_info = finfo_buffer(finfo_open(),base64_decode($image_data),FILEINFO_MIME_TYPE);
+                $image_type =  explode('/',$image_info)[1];
+                $output_file = $cartItem->getQuoteId().'_'.$cartItem->getItemId().".jpg";
+                $this->mediaDirectoryWrite->writeFile($output_file,base64_decode($image_data));
+
+            }
+        }
         foreach ($optionProducts as $optionProduct) {
 
             $dataOption = $optionProduct->getData();
@@ -49,6 +72,7 @@ class Repository {
                     }
                 }
             }
+
             foreach($_customOptions['info_buyRequest']['options'] as $index => $value){
                 if($index==$dataOption['option_id']) {
                     if($dataOption['type']=='field'){

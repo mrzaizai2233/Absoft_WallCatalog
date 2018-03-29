@@ -12,7 +12,7 @@ $_productColection = $block->getProductByAttributeSet();
     <div class="app" id="app">
             <h1 style="text-align: center"><?= $product->getName() ?></h1>
 
-        <form action="<?php echo $block->getUrl('wallcatalog/index/preview',['sku'=>$product->getSku()]) ?>" class="preview-form">
+        <form action="<?php echo $block->getUrl('wallcatalog/index/preview',['sku'=>$product->getSku()]) ?>" class="preview-form" >
 <!--        <form action="http://localhost:3000/" class="preview-form" method="get">-->
 
             <input type="hidden" name="sku" value="<?= $product->getSku() ?>">
@@ -40,7 +40,11 @@ $_productColection = $block->getProductByAttributeSet();
                 <?php } ?>
 
             </div>
-                <input type="submit" class="action tocart primary" value="Preview">
+            <button class="action tocart primary" type="button">
+                <i class="fa fa-spinner fa-spin loader" style="font-size:18px"></i>
+                Get started
+            </button>
+<!--                <input  class="action tocart primary" value="Preview">-->
         </form>
     </div>
 
@@ -51,9 +55,32 @@ $_productColection = $block->getProductByAttributeSet();
         'mage/mage'
     ], function($){
 
-        var dataForm = $('.preview-form');
-        dataForm.mage('validation', {});
+        var form = $('.preview-form');
+        form.mage('validation', {});
+        var checker = setInterval(check,50);
+        function check(){
+            if(typeof form.validation === 'function'){
+                $('.loader').hide()
+                clearInterval(checker)
+            }
+        }
+        $('.tocart').click(function(){
 
+            var form = $(this).closest('form');
+                form.mage('validation', {});
+                var isValid = false;
+                if(typeof form.validation === 'function'){
+                    isValid = form.validation('isValid');
+                }
+                var data_form = form.serializeArray();
+                var result =[].reduce.call(data_form,function(last,data){
+                    last[data.name] = data.value
+                    return last;
+                },{})
+                if(isValid){
+                    location.href = '/wallcatalog/index/preview?'+$.param(result)
+                }
+        })
     });
 </script>
 <style>

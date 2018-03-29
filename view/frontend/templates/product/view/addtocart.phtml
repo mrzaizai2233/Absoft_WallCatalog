@@ -62,13 +62,18 @@
     ], function($){
 
         var dataForm = $('#product_addtocart_form');
-        var ignore = null;
-
-        dataForm.mage('validation', {
-            ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
-        }).find('input:text').attr('autocomplete', 'off');
+        dataForm.mage('validation', {})
+//        var ignore = null;
+//
+//        dataForm.mage('validation', {
+//            ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
+//        }).find('input:text').attr('autocomplete', 'off');
 
         $('#preview').click(function(){
+//            var dataForm = $(this).closest('form');
+
+//            dataForm.mage('validation', {})
+
             var isValid = dataForm.validation('isValid');
             var form = $(this).closest('form');
             var data_form = form.serializeArray();
