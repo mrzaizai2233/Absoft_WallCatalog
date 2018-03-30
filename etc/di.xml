@@ -10,7 +10,10 @@
     <type name="Magento\Checkout\Block\Cart\Item\Renderer">
         <plugin name="Change_Product_Image_In_Checkout_Cart" type="Absoft\WallCatalog\Plugin\CheckoutCart\Image" sortOrder="1"/>
     </type>
+    <preference for="Magento\Checkout\Block\Cart\Item\Renderer" type="Absoft\WallCatalog\Block\Cart\Item\Renderer" />
     <preference for="Magento\Catalog\Block\Product\View\Options\Type\Select" type="Absoft\WallCatalog\Block\Product\View\Options\Type\Select" />
     <preference for="Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options\Type\Select" type="Absoft\WallCatalog\Block\Adminhtml\Product\Edit\Tab\Options\Type\Select" />
     <preference for="Magento\Catalog\Block\Product\View" type="Absoft\WallCatalog\Block\Product\View" />
+    <preference for="Magento\Framework\Filesystem\DriverInterface" type="Magento\Framework\Filesystem\Driver\File"/>
+
 </config>

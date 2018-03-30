@@ -13,6 +13,7 @@ use Magento\Framework\Filesystem;
 
 class Image
 {
+
     /**
      * @var /Magento\Framework\Filesystem
      */
@@ -27,17 +28,29 @@ class Image
 
     }
 
+    /**
+     * @param \Magento\Checkout\Block\Cart\Item\Renderer $block
+     */
+    public function beforeToHtml(\Magento\Checkout\Block\Cart\Item\Renderer $block)
+    {
+        if($block->getTemplate()=='Magento_Checkout::cart/item/default.phtml'){
+            $block->setTemplate('Absoft_WallCatalog::checkout/cart/item/default.phtml');
+        }
+    }
+
     public function afterGetImage(\Magento\Checkout\Block\Cart\Item\Renderer $subject, $result)
     {
         $item = $subject->getItem();
 
         $itemId = $item->getId();
         $cartId = $item->getQuote()->getId();
+        $wallcatalog_media = '/wallcatalog/cart/item/';
+
         /**
          * @var \Magento\Framework\Filesystem\Directory\ReadInterface $dirMedia
          */
-        $dirMedia = $this->fileSystem->getDirectoryRead(DirectoryList::MEDIA)->getRelativePath('/pub/media'.'/'.$cartId.'_'.$itemId.'.jpg');
-        if(fileExists($dirMedia)){
+        $dirMedia = $this->fileSystem->getDirectoryRead(DirectoryList::MEDIA)->getRelativePath('/pub/media'.$wallcatalog_media.$cartId.'_'.$itemId.'.jpg');
+        if($this->fileSystem->getDirectoryRead(DirectoryList::MEDIA)->isExist($wallcatalog_media.$cartId.'_'.$itemId.'.jpg')){
             $result->setImageUrl($dirMedia);
         }
         return $result;

@@ -1,6 +1,7 @@
 <?php
 namespace Absoft\WallCatalog\Model\Quote\Item;
 
+use Magento\Framework\Filesystem\DriverInterface;
 use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
@@ -9,7 +10,10 @@ class Repository {
     protected $_logger;
 
     protected $helperData;
-
+    /**
+     * @var DriverInterface
+     */
+    protected $driver;
 
     /**
      * @var \Magento\Framework\Filesystem\Directory\Write
@@ -21,15 +25,15 @@ class Repository {
         \Psr\Log\LoggerInterface $logger,
         \Absoft\WallCatalog\Helper\Data $helperData,
         CartRepositoryInterface $cartRepository,
-        \Magento\Framework\Filesystem $filesystem
-
+        \Magento\Framework\Filesystem $filesystem,
+        DriverInterface $driver
     )
     {
         $this->helperData = $helperData;
         $this->_logger = $logger;
         $this->_cartReponsitory = $cartRepository;
         $this->mediaDirectoryWrite = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
-
+        $this->driver = $driver;
     }
     /**
      * @param \Magento\Quote\Model\Quote\Item\Repository $subject
@@ -51,13 +55,12 @@ class Repository {
         $optionPrice=0;
         foreach($_customOptions['info_buyRequest']['options'] as $index => $value){
             if($index=='image_preview'){
-
                 $image_data = explode(',',$value)[1];
-                echo $image_data;
                 $image_info = finfo_buffer(finfo_open(),base64_decode($image_data),FILEINFO_MIME_TYPE);
                 $image_type =  explode('/',$image_info)[1];
+                $wallcatalog_media = '/wallcatalog/cart/item/';
                 $output_file = $cartItem->getQuoteId().'_'.$cartItem->getItemId().".jpg";
-                $this->mediaDirectoryWrite->writeFile($output_file,base64_decode($image_data));
+                $this->mediaDirectoryWrite->writeFile($wallcatalog_media.$output_file,base64_decode($image_data));
 
             }
         }
