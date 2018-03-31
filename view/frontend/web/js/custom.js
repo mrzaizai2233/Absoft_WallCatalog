@@ -14,6 +14,7 @@ require([
             message: 'Hello Vue!',
             product: null,
             loadding: false,
+            base64:null
 
         },
         methods: {
@@ -53,6 +54,9 @@ require([
                                         "extensionAttributes": {
                                             "customOptions": options
                                         }
+                                    },
+                                    'extensionAttributes':{
+                                        "imagePreview":"1231231312312312123123131"
                                     }
                                 }
                             },
@@ -79,6 +83,19 @@ require([
             check: function (form) {
                 // console.log(form.elements)
 
+            },
+            sendBase64:function(){
+                var self = this;
+                console.log(self.base64)
+                var form_data = new FormData();
+                form_data.append('base64',self.base64)
+
+                axios.post('/rest/V1/upload/image',{base64:self.base64},
+                    {
+                        headers: {
+                            Authorization: 'Bearer tnj7wjbteoixx9bikhnshedyg5gpsna7'
+                        }
+                    })
             }
         },
         created: function () {

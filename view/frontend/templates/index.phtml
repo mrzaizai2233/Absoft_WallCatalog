@@ -19,7 +19,7 @@ $_productColection = $block->getProductByAttributeSet();
             <input type="hidden" name="cartId" value="<?= $block->getQuoteIdMask()?>">
             <div class="fieldset">
                 <?php foreach ($block->getProductOptions($product) as $option) { ?>
-                    <?php if ($option->getTitle() != 'Width' && $option->getTitle() != 'Height'): ?>
+                    <?php if ($option->getTitle() != 'Width' && $option->getTitle() != 'Height' && $option->getSku() !='image_preview' ): ?>
                     <div class="field required">
 
                         <label class="label" for="<?= $option->getOptionId() ?>"><?= $option->getTitle() ?></label>

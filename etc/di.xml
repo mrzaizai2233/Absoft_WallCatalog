@@ -14,6 +14,10 @@
     <preference for="Magento\Catalog\Block\Product\View\Options\Type\Select" type="Absoft\WallCatalog\Block\Product\View\Options\Type\Select" />
     <preference for="Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options\Type\Select" type="Absoft\WallCatalog\Block\Adminhtml\Product\Edit\Tab\Options\Type\Select" />
     <preference for="Magento\Catalog\Block\Product\View" type="Absoft\WallCatalog\Block\Product\View" />
-    <preference for="Magento\Framework\Filesystem\DriverInterface" type="Magento\Framework\Filesystem\Driver\File"/>
 
+    <type name="Magento\Quote\Api\CartItemRepositoryInterface">
+        <plugin name="Save_Image_Preview" type="Absoft\WallCatalog\Plugin\ItemSave" sortOrder="1"/>
+    </type>
+
+    <preference for="Absoft\WallCatalog\Api\Data\UploadImageInterface" type="Absoft\WallCatalog\Model\UploadImage" />
 </config>

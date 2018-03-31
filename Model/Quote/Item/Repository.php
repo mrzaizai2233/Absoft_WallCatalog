@@ -1,19 +1,15 @@
 <?php
 namespace Absoft\WallCatalog\Model\Quote\Item;
 
-use Magento\Framework\Filesystem\DriverInterface;
-use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Quote\Api\CartRepositoryInterface;
 
 class Repository {
 
     protected $_logger;
 
     protected $helperData;
-    /**
-     * @var DriverInterface
-     */
-    protected $driver;
+
 
     /**
      * @var \Magento\Framework\Filesystem\Directory\Write
@@ -25,15 +21,13 @@ class Repository {
         \Psr\Log\LoggerInterface $logger,
         \Absoft\WallCatalog\Helper\Data $helperData,
         CartRepositoryInterface $cartRepository,
-        \Magento\Framework\Filesystem $filesystem,
-        DriverInterface $driver
+        \Magento\Framework\Filesystem $filesystem
     )
     {
         $this->helperData = $helperData;
         $this->_logger = $logger;
         $this->_cartReponsitory = $cartRepository;
         $this->mediaDirectoryWrite = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
-        $this->driver = $driver;
     }
     /**
      * @param \Magento\Quote\Model\Quote\Item\Repository $subject

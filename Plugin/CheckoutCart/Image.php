@@ -38,20 +38,31 @@ class Image
         }
     }
 
+//    public function afterGetImage(\Magento\Checkout\Block\Cart\Item\Renderer $subject, $result)
+//    {
+//        $item = $subject->getItem();
+//
+//        $itemId = $item->getId();
+//        $cartId = $item->getQuote()->getId();
+//        $wallcatalog_media = '/wallcatalog/cart/item/';
+//
+//        /**
+//         * @var \Magento\Framework\Filesystem\Directory\ReadInterface $dirMedia
+//         */
+//        $dirMedia = $this->fileSystem->getDirectoryRead(DirectoryList::MEDIA)->getRelativePath('/pub/media'.$wallcatalog_media.$cartId.'_'.$itemId.'.jpg');
+//        if($this->fileSystem->getDirectoryRead(DirectoryList::MEDIA)->isExist($wallcatalog_media.$cartId.'_'.$itemId.'.jpg')){
+//            $result->setImageUrl($dirMedia);
+//        }
+//        return $result;
+//    }
+
+
     public function afterGetImage(\Magento\Checkout\Block\Cart\Item\Renderer $subject, $result)
     {
-        $item = $subject->getItem();
-
-        $itemId = $item->getId();
-        $cartId = $item->getQuote()->getId();
-        $wallcatalog_media = '/wallcatalog/cart/item/';
-
-        /**
-         * @var \Magento\Framework\Filesystem\Directory\ReadInterface $dirMedia
-         */
-        $dirMedia = $this->fileSystem->getDirectoryRead(DirectoryList::MEDIA)->getRelativePath('/pub/media'.$wallcatalog_media.$cartId.'_'.$itemId.'.jpg');
-        if($this->fileSystem->getDirectoryRead(DirectoryList::MEDIA)->isExist($wallcatalog_media.$cartId.'_'.$itemId.'.jpg')){
-            $result->setImageUrl($dirMedia);
+        foreach ($subject->getOptionList() as $item) {
+            if($item['label']=='Image Preview'){
+                return $result->setImageUrl('/pub/media/wallcatalog/cart/'.$item['print_value']);
+            }
         }
         return $result;
     }

@@ -8,9 +8,10 @@ use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Quote\Model\QuoteIdMaskFactory;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
-class Test extends \Magento\Framework\App\Action\Action
+class Image extends \Magento\Framework\App\Action\Action
 {
     protected $_pageFactory;
+
     protected $_cartManager;
     protected $_catalogSession;
     protected $_customerSession;
@@ -56,6 +57,18 @@ class Test extends \Magento\Framework\App\Action\Action
 
     public function execute()
     {
+
+        $base64= $this->getRequest()->getPost('base64');
+
+        $image_data = explode(',',$base64)[1];
+        $dir = '/wallcatalog/cart/';
+        $file_name = time().'.jpg';
+        $output_file = $dir.$file_name;
+        if($this->mediaDirectoryWrite->writeFile($output_file,base64_decode($image_data))){
+            $res['success']=true;
+            $res['img']=$file_name;
+            echo json_encode($res);
+        };
 
     }
 }
