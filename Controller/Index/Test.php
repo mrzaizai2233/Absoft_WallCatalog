@@ -23,7 +23,18 @@ class Test extends \Magento\Framework\App\Action\Action
     protected $mediaDirectoryWrite;
 
     protected $imageContent;
-
+    /**
+     * @var \Magento\Framework\App\Request\Http
+     */
+    protected $_request;
+    /**
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
+     */
+    protected $_transportBuilder;
+    /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\View\Result\PageFactory $pageFactory,
@@ -36,7 +47,10 @@ class Test extends \Magento\Framework\App\Action\Action
         \Absoft\WallCatalog\Helper\Data $wallcatalogHelper,
         \Magento\Framework\App\Request\Http $http,
         \Magento\Framework\Filesystem $filesystem,
-        \Magento\Framework\Api\Data\ImageContentInterface $imageContent
+        \Magento\Framework\Api\Data\ImageContentInterface $imageContent,
+         \Magento\Framework\App\Request\Http $request
+        , \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
+        , \Magento\Store\Model\StoreManagerInterface $storeManager
 
     )
     {
@@ -51,11 +65,28 @@ class Test extends \Magento\Framework\App\Action\Action
         $this->_http = $http;
         $this->mediaDirectoryWrite = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         $this->imageContent = $imageContent;
+
+        $this->_request = $request;
+        $this->_transportBuilder = $transportBuilder;
+        $this->_storeManager = $storeManager;
         return parent::__construct($context);
     }
 
     public function execute()
     {
-
+        $store = $this->_storeManager->getStore()->getId();
+        $transport = $this->_transportBuilder->setTemplateIdentifier('modulename_test_template')
+            ->setTemplateOptions(['area' => 'frontend', 'store' => $store])
+            ->setTemplateVars(
+                [
+                    'store' => $this->_storeManager->getStore(),
+                ]
+            )
+            ->setFrom('general')
+            // you can config general email address in Store -> Configuration -> General -> Store Email Addresses
+            ->addTo('kiepsongthuapc@email.com', 'Customer Name')
+            ->getTransport();
+        $transport->sendMessage();
+        return $this;
     }
 }

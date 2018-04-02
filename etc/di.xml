@@ -20,4 +20,12 @@
     </type>
 
     <preference for="Absoft\WallCatalog\Api\Data\UploadImageInterface" type="Absoft\WallCatalog\Model\UploadImage" />
+    <type name="Magento\Checkout\CustomerData\AbstractItem">
+        <plugin name="Change_Product_Image_In_Minicart" type="Absoft\WallCatalog\Plugin\Minicart\Image" sortOrder="1"/>
+    </type>
+
+    <type name="Magento\Webapi\Controller\Rest">
+        <plugin name="Rest_Api_log"
+                type="Absoft\WallCatalog\Plugin\RestApiLog"/>
+    </type>
 </config>

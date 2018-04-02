@@ -47,17 +47,6 @@ class Repository {
         $optionProducts = $product->getOptions()?$product->getOptions():[];
         $cm2=1;
         $optionPrice=0;
-        foreach($_customOptions['info_buyRequest']['options'] as $index => $value){
-            if($index=='image_preview'){
-                $image_data = explode(',',$value)[1];
-                $image_info = finfo_buffer(finfo_open(),base64_decode($image_data),FILEINFO_MIME_TYPE);
-                $image_type =  explode('/',$image_info)[1];
-                $wallcatalog_media = '/wallcatalog/cart/item/';
-                $output_file = $cartItem->getQuoteId().'_'.$cartItem->getItemId().".jpg";
-                $this->mediaDirectoryWrite->writeFile($wallcatalog_media.$output_file,base64_decode($image_data));
-
-            }
-        }
         foreach ($optionProducts as $optionProduct) {
 
             $dataOption = $optionProduct->getData();

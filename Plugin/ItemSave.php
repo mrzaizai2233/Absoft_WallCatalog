@@ -29,7 +29,6 @@ class ItemSave
         \Magento\Quote\Api\CartItemRepositoryInterface $cartItemRepository,
         \Magento\Quote\Api\Data\CartItemInterface $cartItem)
     {
-        var_dump($cartItem->getExtensionAttributes());
 
         return $cartItem;
 
